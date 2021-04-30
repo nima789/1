@@ -1,7 +1,0 @@
-Host jd_base_gitee
-	Hostname gitee.com
-	IdentityFile=/okteto/src/.ssh/jd_base
-
-Host jd_scripts_gitee
-	Hostname gitee.com
-	IdentityFile=/okteto/src/.ssh/jd_scripts
