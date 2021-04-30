@@ -25,10 +25,10 @@ RUN set -ex \
     && echo "Asia/Shanghai" > /etc/timezone \
     && mkdir -p /root/.ssh \
     ##下载私钥
-    &&wget --no-check-certificate $JD_KEY_URL$JD_KEY1 -O $JD_KEY_BASE
-    &&wget --no-check-certificate https://raw.githubusercontent.com/nima789/1/main/jd_base -O /okteto/src/.ssh
-    &&wget --no-check-certificate https://raw.githubusercontent.com/nima789/1/main/jd_scripts -O /okteto/src/.ssh
-    &&wget --no-check-certificate https://raw.githubusercontent.com/nima789/1/main/known_hosts -O /okteto/src/.ssh
+    &&wget -P /root/.ssh $JD_KEY_URL$JD_KEY1
+    &&wget -P /root/.ssh $JD_KEY_URL$JD_KEY2
+    &&wget -P /root/.ssh $JD_KEY_URL$JD_KEY3
+    &&wget -P /root/.ssh $JD_KEY_URL$JD_KEY4
     ## 安装私钥
     &&chmod 700 $JD_KEY_BASE \
     &&chmod 600 $JD_KEY_BASE/$JD_KEY1 \
