@@ -1,23 +1,16 @@
-FROM golang:alpine AS builder
+FROM alpine:3.12
 
-# 时区设置
-ARG TZ=Asia/Shanghai
-ENV TZ=$TZ
-
-ARG PKG_DEPS="\
-      tzdata \
-      ca-certificates"
+LABEL AUTHOR="none" \
+      VERSION=0.1.4
       
-ENV PKG_DEPS=$PKG_DEPS
-
 ENV BASE=/jd \
     ## 项目分支
     JD_BASE_BRANCH=master \
     ## 项目地址
     JD_BASE_URL=git@jd_base_gitee:supermanito/jd_base.git \
     ## 活动脚本库私钥
-    JD_KEY_BASE=/okteto/src/.ssh \
-    JD_KEY_URL=https://raw.githubusercontent.com/nima789/1/main/ \
+    JD_KEY_BASE=/root/.ssh \
+    JD_KEY_URL=https://raw.githubusercontent.com/nima789/JD-FreeFuck/part2/.ssh/ \
     JD_KEY1=config \
     JD_KEY2=jd_base \
     JD_KEY3=jd_scripts \
@@ -27,12 +20,12 @@ RUN set -ex \
     && apk update \
     && apk upgrade \
     && apk add --no-cache tzdata git nodejs moreutils npm curl jq openssh-client wget perl net-tools\
-    # 更新时区
-    && ln -sf /usr/share/zoneinfo/${TZ} /etc/localtime \
-    # 更新时间
-    && echo ${TZ} > /etc/timezone
+    && rm -rf /var/cache/apk/* \
+    && ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
+    && echo "Asia/Shanghai" > /etc/timezone \
+    && mkdir -p /root/.ssh \
     ##下载私钥
-    &&wget --no-check-certificate https://raw.githubusercontent.com/nima789/1/main/config -O /okteto/src/.ssh
+    &&wget --no-check-certificate $JD_KEY_URL$JD_KEY1 -O $JD_KEY_BASE
     &&wget --no-check-certificate https://raw.githubusercontent.com/nima789/1/main/jd_base -O /okteto/src/.ssh
     &&wget --no-check-certificate https://raw.githubusercontent.com/nima789/1/main/jd_scripts -O /okteto/src/.ssh
     &&wget --no-check-certificate https://raw.githubusercontent.com/nima789/1/main/known_hosts -O /okteto/src/.ssh
