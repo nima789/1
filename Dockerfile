@@ -25,10 +25,10 @@ RUN set -ex \
     && echo "Asia/Shanghai" > /etc/timezone \
     && mkdir -p /root/.ssh \
     ##下载私钥
-    &&wget -P /root/.ssh $JD_KEY_URL$JD_KEY1
-    &&wget -P /root/.ssh $JD_KEY_URL$JD_KEY2
-    &&wget -P /root/.ssh $JD_KEY_URL$JD_KEY3
-    &&wget -P /root/.ssh $JD_KEY_URL$JD_KEY4
+    &&wget -P /root/.ssh $JD_KEY_URL$JD_KEY1 \
+    &&wget -P /root/.ssh $JD_KEY_URL$JD_KEY2 \
+    &&wget -P /root/.ssh $JD_KEY_URL$JD_KEY3 \
+    &&wget -P /root/.ssh $JD_KEY_URL$JD_KEY4 \
     ## 安装私钥
     &&chmod 700 $JD_KEY_BASE \
     &&chmod 600 $JD_KEY_BASE/$JD_KEY1 \
