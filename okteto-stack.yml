@@ -1,0 +1,12 @@
+name: jd
+services:
+  pachong:
+    public: true
+    image: okteto.dev/jd
+    build: .
+    replicas: 1
+    ports:
+      - 5678
+    resources:
+      cpu: 1000m
+      memory: 1024Mi
