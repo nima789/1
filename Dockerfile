@@ -56,7 +56,10 @@ RUN git clone -b $JD_BASE_BRANCH $JD_BASE_URL $BASE \
     &&pm2 start ecosystem.config.js \
     ## 拉取活动脚本
 WORKDIR $BASE
-ENTRYPOINT ["bash.sh"]
+
+ENTRYPOINT ["git_pull.sh"]
+
+CMD [ "crond" ]
 
     
     
