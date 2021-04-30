@@ -55,8 +55,8 @@ RUN git clone -b $JD_BASE_BRANCH $JD_BASE_URL $BASE \
     &&npm install -g pm2 \
     &&pm2 start ecosystem.config.js \
     ## 拉取活动脚本
-    &&bash $BASE/git_pull.sh \
-    &&bash $BASE/git_pull.sh >/dev/null 2>&1 \
+    WORKDIR /jd
+    ENTRYPOINT ["git_pull.sh"]
 
     
     
