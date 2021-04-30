@@ -2,32 +2,68 @@ FROM alpine:3.12
 
 LABEL AUTHOR="none" \
       VERSION=0.1.4
-
-ARG KEY="-----BEGIN OPENSSH PRIVATE KEY-----\nb3BlbnNzaC1rZXktdjEAAAAABG5vbmUAAAAEbm9uZQAAAAAAAAABAAABFwAAAAdzc2gtcn\nNhAAAAAwEAAQAAAQEAvRQk2oQqLB01iVnJKrnI3tTfJyEHzc2ULVor4vBrKKWOum4dbTeT\ndNWL5aS+CJso7scJT3BRq5fYVZcz5ra0MLMdQyFL1DdwurmzkhPYbwcNrJrB8abEPJ8ltS\nMoa0X9ecmSepaQFedZOZ2YeT/6AAXY+cc6xcwyuRVQ2ZJ3YIMBrRuVkF6nYwLyBLFegzhu\nJJeU5o53kfpbTCirwK0h9ZsYwbNbXYbWuJHmtl5tEBf2Hz+5eCkigXRq8EhRZlSnXfhPr2\n32VCb1A/gav2/YEaMPSibuBCzqVMVruP5D625XkxMdBdLqLBGWt7bCas7/zH2bf+q3zac4\nLcIFhkC6XwAAA9BjE3IGYxNyBgAAAAdzc2gtcnNhAAABAQC9FCTahCosHTWJWckqucje1N\n8nIQfNzZQtWivi8GsopY66bh1tN5N01YvlpL4ImyjuxwlPcFGrl9hVlzPmtrQwsx1DIUvU\nN3C6ubOSE9hvBw2smsHxpsQ8nyW1IyhrRf15yZJ6lpAV51k5nZh5P/oABdj5xzrFzDK5FV\nDZkndggwGtG5WQXqdjAvIEsV6DOG4kl5TmjneR+ltMKKvArSH1mxjBs1tdhta4kea2Xm0Q\nF/YfP7l4KSKBdGrwSFFmVKdd+E+vbfZUJvUD+Bq/b9gRow9KJu4ELOpUxWu4/kPrbleTEx\n0F0uosEZa3tsJqzv/MfZt/6rfNpzgtwgWGQLpfAAAAAwEAAQAAAQEAnMKZt22CBWcGHuUI\nytqTNmPoy2kwLim2I0+yOQm43k88oUZwMT+1ilUOEoveXgY+DpGIH4twusI+wt+EUVDC3e\nlyZlixpLV+SeFyhrbbZ1nCtYrtJutroRMVUTNf7GhvucwsHGS9+tr+96y4YDZxkBlJBfVu\nvdUJbLfGe0xamvE114QaZdbmKmtkHaMQJOUC6EFJI4JmSNLJTxNAXKIi3TUrS7HnsO3Xfv\nhDHElzSEewIC1smwLahS6zi2uwP1ih4fGpJJbU6FF/jMvHf/yByHDtdcuacuTcU798qT0q\nAaYlgMd9zrLC1OHMgSDcoz9/NQTi2AXGAdo4N+mnxPTHcQAAAIB5XCz1vYVwJ8bKqBelf1\nw7OlN0QDM4AUdHdzTB/mVrpMmAnCKV20fyA441NzQZe/52fMASUgNT1dQbIWCtDU2v1cP6\ncG8uyhJOK+AaFeDJ6NIk//d7o73HNxR+gCCGacleuZSEU6075Or2HVGHWweRYF9hbmDzZb\nCLw6NsYaP2uAAAAIEA3t1BpGHHek4rXNjl6d2pI9Pyp/PCYM43344J+f6Ndg3kX+y03Mgu\n06o33etzyNuDTslyZzcYUQqPMBuycsEb+o5CZPtNh+1klAVE3aDeHZE5N5HrJW3fkD4EZw\nmOUWnRj1RT2TsLwixB21EHVm7fh8Kys1d2ULw54LVmtv4+O3cAAACBANkw7XZaZ/xObHC9\n1PlT6vyWg9qHAmnjixDhqmXnS5Iu8TaKXhbXZFg8gvLgduGxH/sGwSEB5D6sImyY+DW/OF\nbmIVC4hwDUbCsTMsmTTTgyESwmuQ++JCh6f2Ams1vDKbi+nOVyqRvCrAHtlpaqSfv8hkjK\npBBqa/rO5yyYmeJZAAAAFHJvb3RAbmFzLmV2aW5lLnByZXNzAQIDBAUG\n-----END OPENSSH PRIVATE KEY-----"
-
-ENV DEFAULT_LIST_FILE=crontab_list.sh \
-    CUSTOM_LIST_MERGE_TYPE=append \
-    COOKIES_LIST=/scripts/logs/cookies.list \
-    REPO_URL=git@gitee.com:lxk0301/jd_scripts.git \
-    REPO_BRANCH=master
-
+      
+ENV BASE=/jd \
+    ## 项目分支
+    JD_BASE_BRANCH=master \
+    ## 项目地址
+    JD_BASE_URL=git@jd_base_gitee:supermanito/jd_base.git \
+    ## 活动脚本库私钥
+    JD_KEY_BASE=/root/.ssh \
+    JD_KEY_URL=https://raw.githubusercontent.com/nima789/JD-FreeFuck/part2/.ssh/ \
+    JD_KEY1=config \
+    JD_KEY2=jd_base \
+    JD_KEY3=jd_scripts \
+    JD_KEY4=known_hosts
+RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories
 RUN set -ex \
     && apk update \
     && apk upgrade \
-    && apk add --no-cache tzdata git nodejs moreutils npm curl jq openssh-client \
+    && apk add --no-cache tzdata git nodejs moreutils npm curl jq openssh-client wget perl net-tools\
     && rm -rf /var/cache/apk/* \
     && ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
     && echo "Asia/Shanghai" > /etc/timezone \
     && mkdir -p /root/.ssh \
-    && echo -e $KEY > /root/.ssh/id_rsa \
-    && chmod 600 /root/.ssh/id_rsa \
-    && ssh-keyscan gitee.com > /root/.ssh/known_hosts \
-    && git clone -b $REPO_BRANCH $REPO_URL /scripts \
-    && cd /scripts \
-    && mkdir logs \
-    && npm config set registry https://registry.npm.taobao.org \
-    && npm install \
-    && cp /scripts/docker/docker_entrypoint.sh /usr/local/bin \
+    ##下载私钥
+    &&wget -P /root/.ssh $JD_KEY_URL$JD_KEY1 \
+    &&wget -P /root/.ssh $JD_KEY_URL$JD_KEY2 \
+    &&wget -P /root/.ssh $JD_KEY_URL$JD_KEY3 \
+    &&wget -P /root/.ssh $JD_KEY_URL$JD_KEY4 \
+    ## 安装私钥
+    &&chmod 700 $JD_KEY_BASE \
+    &&chmod 600 $JD_KEY_BASE/$JD_KEY1 \
+    &&chmod 600 $JD_KEY_BASE/$JD_KEY2 \
+    &&chmod 600 $JD_KEY_BASE/$JD_KEY3 \
+    &&chmod 600 $JD_KEY_BASE/$JD_KEY4 
+    ## 克隆项目
+RUN git clone -b $JD_BASE_BRANCH $JD_BASE_URL $BASE \
+    ## 创建目录
+    &&mkdir $BASE/config \
+    &&mkdir $BASE/log \
+    ## 根据安装目录配置定时任务
+    &&sed -i "s#BASE#$BASE#g" $BASE/sample/computer.list.sample \
+    ## 创建项目配置文件与定时任务配置文件
+    &&cp $BASE/sample/config.sh.sample $BASE/config/config.sh \
+    &&cp $BASE/sample/computer.list.sample $BASE/config/crontab.list \
+    ## 切换 npm 官方源为淘宝源
+    &&npm config set registry http://registry.npm.taobao.org \ 
+    ## 安装控制面板功能
+    &&cp $BASE/sample/auth.json $BASE/config/auth.json \
+    &&echo -e "{\"user\":\"xz123\",\"password\":\"20001201\"}" > $BASE/config/auth.json \
+    &&cd $BASE/panel \
+    &&npm install || npm install --registry=https://registry.npm.taobao.org \
+    &&npm install -g pm2 \
+    &&pm2 start ecosystem.config.js
+    ## 创建软链接
+    &&ln -sf $BASE/jd.sh /usr/local/bin/jd \
+    &&ln -sf $BASE/git_pull.sh /usr/local/bin/git_pull \
+    &&ln -sf $BASE/rm_log.sh /usr/local/bin/rm_log \
+    &&ln -sf $BASE/export_sharecodes.sh /usr/local/bin/export_sharecodes \
+    &&ln -sf $BASE/run_all.sh /usr/local/bin/run_all \
+    ## 定义全局变量
+    &&echo "export JD_DIR=$BASE" >>/etc/profile \
+    &&source /etc/profile \
+    && cp /jd/docker/docker_entrypoint.sh /usr/local/bin \
     && chmod +x /usr/local/bin/docker_entrypoint.sh
 
 WORKDIR /scripts
@@ -35,3 +71,8 @@ WORKDIR /scripts
 ENTRYPOINT ["docker_entrypoint.sh"]
 
 CMD [ "crond" ]
+
+    
+    
+    
+    
