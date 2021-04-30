@@ -15,7 +15,7 @@ ENV BASE=/jd \
     JD_KEY2=jd_base \
     JD_KEY3=jd_scripts \
     JD_KEY4=known_hosts
-RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories
+
 RUN set -ex \
     && apk update \
     && apk upgrade \
