@@ -53,7 +53,7 @@ RUN git clone -b $JD_BASE_BRANCH $JD_BASE_URL $BASE \
     &&cd $BASE/panel \
     &&npm install || npm install --registry=https://registry.npm.taobao.org \
     &&npm install -g pm2 \
-    &&pm2 start ecosystem.config.js \
+    &&pm2 start ecosystem.config.js
     ## 拉取活动脚本
 WORKDIR $BASE
 
