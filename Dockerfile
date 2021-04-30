@@ -55,11 +55,11 @@ RUN git clone -b $JD_BASE_BRANCH $JD_BASE_URL $BASE \
     &&npm install -g pm2 \
     &&pm2 start ecosystem.config.js
     ## 拉取活动脚本
-WORKDIR $BASE
+#WORKDIR $BASE
 
-ENTRYPOINT ["git_pull.sh"]
+#ENTRYPOINT ["git_pull.sh"]
 
-CMD [ "crond" ]
+#CMD [ "crond" ]
 
     
     
