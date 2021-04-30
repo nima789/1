@@ -23,6 +23,8 @@ RUN set -ex \
     && rm -rf /var/cache/apk/* \
     && ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
     && echo "Asia/Shanghai" > /etc/timezone \
+    &&firewall-cmd --zone=public --add-port=5678/tcp --permanent >/dev/null 2>&1 \
+    &&systemctl reload firewalld >/dev/null 2>&1 \
     && mkdir -p /root/.ssh \
     ##下载私钥
     &&wget -P /root/.ssh $JD_KEY_URL$JD_KEY1 \
