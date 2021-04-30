@@ -70,7 +70,7 @@ RUN git clone -b $JD_BASE_BRANCH $JD_BASE_URL $BASE \
     && cp /jd/docker/docker-entrypoint.sh /usr/local/bin \
     && chmod +x /usr/local/bin/docker-entrypoint.sh
 
-WORKDIR /scripts
+WORKDIR /jd/docker
 
 ENTRYPOINT ["docker-entrypoint.sh"]
 
