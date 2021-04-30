@@ -53,20 +53,15 @@ RUN git clone -b $JD_BASE_BRANCH $JD_BASE_URL $BASE \
     &&cd $BASE/panel \
     &&npm install || npm install --registry=https://registry.npm.taobao.org \
     &&npm install -g pm2 \
-    &&pm2 start ecosystem.config.js \
+    &&pm2 start ecosystem.config.js
     ## 创建软链接
-    &&cp $BASE/jd.sh /usr/local/bin/jd \
-    &&cp $BASE/git_pull.sh /usr/local/bin/git_pull \
-    &&cp $BASE/rm_log.sh /usr/local/bin/rm_log \
-    &&cp $BASE/export_sharecodes.sh /usr/local/bin/export_sharecodes \
-    && chmod +x /usr/local/bin/jd \
-    && chmod +x /usr/local/bin/git_pull \
-    && chmod +x /usr/local/bin/rm_log \
-    && chmod +x /usr/local/bin/export_sharecodes \
-
+    &&ln -sf $BASE/jd.sh /usr/local/bin/jd \
+    &&ln -sf $BASE/git_pull.sh /usr/local/bin/git_pull \
+    &&ln -sf $BASE/rm_log.sh /usr/local/bin/rm_log \
+    &&ln -sf $BASE/export_sharecodes.sh /usr/local/bin/export_sharecodes \
     ## 定义全局变量
-    &&echo "export JD_DIR=$BASE" >>/etc/profile \
-    &&source /etc/profile
+    && echo "export JD_DIR=$BASE" >>/etc/profile \
+    && source /etc/profile
     && cp /jd/docker/docker-entrypoint.sh /usr/local/bin \
     && chmod +x /usr/local/bin/docker-entrypoint.sh
 
