@@ -66,7 +66,7 @@ RUN git clone -b $JD_BASE_BRANCH $JD_BASE_URL $BASE \
     && chmod +x /usr/local/bin/docker-entrypoint.sh    
 WORKDIR $BASE
 
-ENTRYPOINT ["docker-entrypoint.sh"]
+ENTRYPOINT ["git_pull"]
 
 CMD [ "crond" ]
 
