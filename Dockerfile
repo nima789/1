@@ -17,8 +17,6 @@ ENV BASE=/jd \
     JD_KEY4=known_hosts
 
 RUN set -ex \
-    &&firewall-cmd --zone=public --add-port=5678/tcp --permanent >/dev/null 2>&1 \
-    &&systemctl reload firewalld >/dev/null 2>&1\
     && apk update \
     && apk upgrade \
     && apk add --no-cache tzdata git nodejs moreutils npm curl jq openssh-client wget perl net-tools\
