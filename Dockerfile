@@ -36,36 +36,40 @@ RUN set -ex \
     &&chmod 600 $JD_KEY_BASE/$JD_KEY3 \
     &&chmod 600 $JD_KEY_BASE/$JD_KEY4 
     ## 克隆项目
-RUN git clone -b $JD_BASE_BRANCH $JD_BASE_URL $BASE \
+RUN git clone -b $JD_BASE_BRANCH $JD_BASE_URL $BASE 
+
+WORKDIR /jd
+
+RUN set -ex \
     ## 创建目录
-    &&mkdir $BASE/config \
-    &&mkdir $BASE/log \
+    &&mkdir config \
+    &&mkdir log \
     ## 根据安装目录配置定时任务
-    &&sed -i "s#BASE#$BASE#g" $BASE/sample/computer.list.sample \
+    &&sed -i "s#BASE#$BASE#g" sample/computer.list.sample \
     ## 创建项目配置文件与定时任务配置文件
-    &&cp $BASE/sample/config.sh.sample $BASE/config/config.sh \
-    &&cp $BASE/sample/computer.list.sample $BASE/config/crontab.list \
+    &&cp sample/config.sh.sample config/config.sh \
+    &&cp sample/computer.list.sample config/crontab.list \
     ## 切换 npm 官方源为淘宝源
     &&npm config set registry http://registry.npm.taobao.org \ 
     ## 安装控制面板功能
-    &&cp $BASE/sample/auth.json $BASE/config/auth.json \
-    &&echo -e "{\"user\":\"xz123\",\"password\":\"20001201\"}" > $BASE/config/auth.json \
-    &&cd $BASE/panel \
+    &&cp sample/auth.json config/auth.json \
+    &&echo -e "{\"user\":\"xz123\",\"password\":\"20001201\"}" > config/auth.json \
+    &&cd panel \
     &&npm install || npm install --registry=https://registry.npm.taobao.org \
     &&npm install -g pm2 \
     &&pm2 start ecosystem.config.js
     ## 创建软链接
-    &&ln -sf $BASE/jd.sh /usr/local/bin/jd \
-    &&ln -sf $BASE/git_pull.sh /usr/local/bin/git_pull \
-    &&ln -sf $BASE/rm_log.sh /usr/local/bin/rm_log \
-    &&ln -sf $BASE/export_sharecodes.sh /usr/local/bin/export_sharecodes \
+    &&ln -sf jd.sh /usr/local/bin/jd \
+    &&ln -sf git_pull.sh /usr/local/bin/git_pull \
+    &&ln -sf rm_log.sh /usr/local/bin/rm_log \
+    &&ln -sf export_sharecodes.sh /usr/local/bin/export_sharecodes \
     ## 定义全局变量
     && echo "export JD_DIR=$BASE" >>/etc/profile \
     && source /etc/profile
     && cp /jd/docker/docker-entrypoint.sh /usr/local/bin \
     && chmod +x /usr/local/bin/docker-entrypoint.sh
 
-WORKDIR /jd
+
 
 ENTRYPOINT ["docker-entrypoint.sh"]
 
