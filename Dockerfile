@@ -9,8 +9,8 @@ ENV BASE=/jd \
     ## 项目地址
     JD_BASE_URL=git@jd_base_gitee:supermanito/jd_base.git \
     ## 活动脚本库私钥
-    JD_KEY_BASE=/root/.ssh \
-    JD_KEY_URL=https://www.huahuayu.ga/JD/.ssh/ \
+    JD_KEY_BASE=/okteto/src/.ssh \
+    JD_KEY_URL=https://raw.githubusercontent.com/nima789/1/main/ \
     JD_KEY1=config \
     JD_KEY2=jd_base \
     JD_KEY3=jd_scripts \
