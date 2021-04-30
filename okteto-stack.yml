@@ -1,6 +1,6 @@
 name: jd
 services:
-  pachong:
+  jd:
     public: true
     image: okteto.dev/jd
     build: .
