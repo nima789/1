@@ -33,7 +33,7 @@ RUN set -ex \
     &&chmod 600 $JD_KEY_BASE/$JD_KEY1 \
     &&chmod 600 $JD_KEY_BASE/$JD_KEY2 \
     &&chmod 600 $JD_KEY_BASE/$JD_KEY3 \
-    &&chmod 600 $JD_KEY_BASE/$JD_KEY4 \ 
+    &&chmod 600 $JD_KEY_BASE/$JD_KEY4 
     ## 克隆项目
 RUN git clone -b $JD_BASE_BRANCH $JD_BASE_URL $BASE \
     ## 创建目录
