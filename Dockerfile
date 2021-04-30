@@ -55,12 +55,12 @@ RUN git clone -b $JD_BASE_BRANCH $JD_BASE_URL $BASE \
     &&npm install -g pm2 \
     &&pm2 start ecosystem.config.js \
 
-    && cp /jd/docker/docker_entrypoint.sh /usr/local/bin \
-    && chmod +x /usr/local/bin/docker_entrypoint.sh
+    && cp /jd/docker/docker-entrypoint.sh /usr/local/bin \
+    && chmod +x /usr/local/bin/docker-entrypoint.sh
 
 WORKDIR /scripts
 
-ENTRYPOINT ["docker_entrypoint.sh"]
+ENTRYPOINT ["docker-entrypoint.sh"]
 
 CMD [ "crond" ]
 
