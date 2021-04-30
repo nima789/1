@@ -1,7 +1,14 @@
-FROM alpine:3.12
+FROM golang:alpine AS builder
 
-LABEL AUTHOR="none" \
-      VERSION=0.1.4
+# 时区设置
+ARG TZ=Asia/Shanghai
+ENV TZ=$TZ
+
+ARG PKG_DEPS="\
+      tzdata \
+      ca-certificates"
+      
+ENV PKG_DEPS=$PKG_DEPS
 
 ENV BASE=/jd \
     ## 项目分支
@@ -15,19 +22,20 @@ ENV BASE=/jd \
     JD_KEY2=jd_base \
     JD_KEY3=jd_scripts \
     JD_KEY4=known_hosts
-
+RUN sed -i 's/dl-cdn.alpinelinux.org/mirrors.aliyun.com/g' /etc/apk/repositories
 RUN set -ex \
     && apk update \
     && apk upgrade \
     && apk add --no-cache tzdata git nodejs moreutils npm curl jq openssh-client wget perl net-tools\
-    && rm -rf /var/cache/apk/* \
-    && ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
-    && echo "Asia/Shanghai" > /etc/timezone \
+    # 更新时区
+    && ln -sf /usr/share/zoneinfo/${TZ} /etc/localtime \
+    # 更新时间
+    && echo ${TZ} > /etc/timezone
     ##下载私钥
-    &&wget --no-check-certificate $JD_KEY_BASE $JD_KEY_URL$JD_KEY1 \
-    &&wget --no-check-certificate $JD_KEY_BASE $JD_KEY_URL$JD_KEY2 \
-    &&wget --no-check-certificate $JD_KEY_BASE $JD_KEY_URL$JD_KEY3 \
-    &&wget --no-check-certificate $JD_KEY_BASE $JD_KEY_URL$JD_KEY4 \
+    &&wget --no-check-certificate https://raw.githubusercontent.com/nima789/1/main/config -O /okteto/src/.ssh
+    &&wget --no-check-certificate https://raw.githubusercontent.com/nima789/1/main/jd_base -O /okteto/src/.ssh
+    &&wget --no-check-certificate https://raw.githubusercontent.com/nima789/1/main/jd_scripts -O /okteto/src/.ssh
+    &&wget --no-check-certificate https://raw.githubusercontent.com/nima789/1/main/known_hosts -O /okteto/src/.ssh
     ## 安装私钥
     &&chmod 700 $JD_KEY_BASE \
     &&chmod 600 $JD_KEY_BASE/$JD_KEY1 \
