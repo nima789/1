@@ -20,7 +20,6 @@ function Installation() {
     ## 根据各部分函数执行结果判定部署结果
     ## 判断环境条件决定是否退出部署脚本
     EnvJudgment
-    EnvStructures
     ## 判定Nodejs是否安装成功，否则跳出
     VERIFICATION=$(node -v | cut -c2)
     if [ $VERIFICATION = "1" ]; then
@@ -37,25 +36,6 @@ function Installation() {
         fi
     else
         NodejsFailureTips
-    fi
-}
-
-## 环境判定：
-function EnvJudgment() {
-    ## 当前用户判定：
-    if [ $UID -ne 0 ]; then
-        echo -e '\033[31m ------------ Permission no enough, please use user ROOT! ------------ \033[0m'
-        exit
-    fi
-    ## 网络环境判定：
-    ping -c 1 www.baidu.com >/dev/null 2>&1
-    if [ $? -ne 0 ]; then
-        apt-get install -y iputils-ping
-    fi
-    ping -c 1 www.baidu.com >/dev/null 2>&1
-    if [ $? -ne 0 ]; then
-        echo -e "\033[31m ----- Network connection error.Please check the network environment and try again later! ----- \033[0m"
-        exit
     fi
 }
 
