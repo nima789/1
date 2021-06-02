@@ -1,4 +1,7 @@
-FROM alpine:3.5
+FROM alpine:3.12
+
+LABEL AUTHOR="none" \
+      VERSION=0.1.4
 
 ADD install.sh /install.sh
 
