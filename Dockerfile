@@ -53,7 +53,6 @@ RUN git clone -b $JD_BASE_BRANCH $JD_BASE_URL $BASE \
     &&cd $BASE/panel \
     &&npm install || npm install --registry=https://registry.npm.taobao.org \
     &&npm install -g pm2 \
-    &&pm2 start ecosystem.config.js \
     ## 创建软链接
     &&ln -sf $BASE/jd.sh /usr/local/bin/jd \
     &&ln -sf $BASE/git_pull.sh /usr/local/bin/git_pull \
