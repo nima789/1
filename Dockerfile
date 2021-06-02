@@ -16,8 +16,7 @@ ENV BASE=/jd \
     JD_KEY3=jd_scripts \
     JD_KEY4=known_hosts
 
-RUN set -ex \
-    && apk update \
+RUN apk update \
     && apk upgrade \
     && apk add --no-cache tzdata git nodejs moreutils npm curl jq openssh-client wget perl net-tools\
     && rm -rf /var/cache/apk/* \
