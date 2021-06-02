@@ -20,7 +20,6 @@ function Installation() {
     ## 根据各部分函数执行结果判定部署结果
     ## 判断环境条件决定是否退出部署脚本
     EnvJudgment
-    EnvStructures
     ## 判定Nodejs是否安装成功，否则跳出
     VERIFICATION=$(node -v | cut -c2)
     if [ $VERIFICATION = "1" ]; then
@@ -57,30 +56,6 @@ function EnvJudgment() {
         echo -e "\033[31m ----- Network connection error.Please check the network environment and try again later! ----- \033[0m"
         exit
     fi
-}
-
-## 环境搭建：
-function EnvStructures() {
-    Welcome
-    ## 修改系统时区：
-    ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime >/dev/null 2>&1
-    timedatectl set-timezone "Asia/Shanghai" >/dev/null 2>&1
-    ## 放行控制面板需要用到的端口
-    firewall-cmd --zone=public --add-port=5678/tcp --permanent >/dev/null 2>&1
-    systemctl reload firewalld >/dev/null 2>&1
-    
-        ## 更新软件源，列出索引
-        apt update
-        ## 卸载 Nodejs 旧版本，从而确保安装新版本
-        apt remove -y nodejs npm >/dev/null 2>&1
-        rm -rf /etc/apt/sources.list.d/nodesource.list
-        ## 安装需要的软件包
-        apt install -y wget curl net-tools openssh-server git perl moreutils
-        ## 安装 Nodejs 与 npm
-        curl -sL https://deb.nodesource.com/setup_14.x | bash -
-        DownloadTip
-        apt install -y nodejs
-        apt autoremove -y
 }
 
 ## 部署私钥：
