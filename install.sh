@@ -114,6 +114,7 @@ function ProjectDeployment() {
     rm -rf /usr/local/bin/export_sharecodes
     rm -rf /usr/local/bin/run_all
     ## 克隆项目
+    mkdir -p $BASE
     git clone -b $JD_BASE_BRANCH $JD_BASE_URL $BASE
     ## 创建目录
     mkdir $BASE/config
