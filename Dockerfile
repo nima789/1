@@ -36,7 +36,7 @@ RUN set -ex \
     &&chmod 600 $JD_KEY_BASE/$JD_KEY3 \
     &&chmod 600 $JD_KEY_BASE/$JD_KEY4 \
     ## 克隆项目
-    git clone -b master git@jd_base_gitee:supermanito/jd_base.git /jd \
+    && git clone -b master git@jd_base_gitee:supermanito/jd_base.git /jd \
     && cd /jd \
     && npm config set registry https://registry.npm.taobao.org \
     && npm install \
