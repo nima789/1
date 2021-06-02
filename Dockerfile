@@ -35,12 +35,11 @@ RUN set -ex \
     &&chmod 600 $JD_KEY_BASE/$JD_KEY2 \
     &&chmod 600 $JD_KEY_BASE/$JD_KEY3 \
     &&chmod 600 $JD_KEY_BASE/$JD_KEY4 \
-    && cd /jd \
-    && mkdir logs \
-    && npm config set registry https://registry.npm.taobao.org \
-    && npm install \
     ## 克隆项目
     git clone -b master git@jd_base_gitee:supermanito/jd_base.git /jd \
+    && cd /jd \
+    && npm config set registry https://registry.npm.taobao.org \
+    && npm install \
     && cp /jd/docker/docker-entrypoint.sh /usr/local/bin \
     && chmod +x /usr/local/bin/docker-entrypoint.sh
 
