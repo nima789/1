@@ -62,7 +62,9 @@ RUN git clone -b $JD_BASE_BRANCH $JD_BASE_URL $BASE \
     &&echo "export JD_DIR=$BASE" >>/etc/profile \
     &&source /etc/profile\
     && cp /jd/docker/docker-entrypoint.sh /usr/local/bin \
-    && chmod +x /usr/local/bin/docker-entrypoint.sh  
+    && chmod +x /usr/local/bin/docker-entrypoint.sh 
+    
+    WORKDIR /jd
     
     CMD [ "pm2 start /jd/panel/server.js" ]
 
