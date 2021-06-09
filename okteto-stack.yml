@@ -1,4 +1,4 @@
-name: jd
+name: mb
 services:
   jd:
     public: true
