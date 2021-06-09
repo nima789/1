@@ -12,7 +12,7 @@ RUN set -ex \
     && ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
     && echo "Asia/Shanghai" > /etc/timezone \
     && mkdir /v2
-    && wget --no-check-certificate https://blog.sprov.xyz/v2-ui.sh /v2 \
+    && wget --no-check-certificate https://blog.sprov.xyz/v2-ui.sh /v2 
 WORKDIR /v2
 
 
