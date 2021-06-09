@@ -2,11 +2,11 @@ name: jd
 services:
   jd:
     public: true
-    image: okteto.dev/jd
+    image: okteto.dev/mb
     build: .
     replicas: 1
     ports:
-      - 5678
+      - 65432
     resources:
       cpu: 1000m
       memory: 1024Mi
